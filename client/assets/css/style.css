@@ -1,0 +1,117 @@
+/* login */
+.card{
+    border-radius: var(--br-1);
+}
+
+/* list_students */
+.input-group-text{
+    width: 40px;
+}
+
+.btn-search{
+    width: 50%;
+}
+
+.form-group--btn{
+    float:right;
+}
+
+.table--page{
+    position: relative;
+    width: 100%;
+    z-index: 1;
+}
+
+.pagination-nav{
+    position:absolute;
+    left:0;
+    right: 0;
+    margin: auto;
+    z-index: -1;
+}
+
+.table--rows-perpage{
+    float: right;
+    color:black;
+    z-index: 5;
+    float:right;
+    display: flex;
+    align-items: baseline;
+}
+
+.input--rows-perpage{
+    margin-left: 10px;
+    max-width: 40px;
+}
+
+/* add_students */
+#base-info-tab{
+    text-decoration: underline;
+    text-underline-offset: 10px;
+    cursor: pointer;
+    display: inline-block;
+}
+
+/* #base-info-tab::before{
+    content: '\F26E';
+    font-family: "Font Awesome 6 Free";
+} */
+
+@media only screen and (max-width: 746px){
+    .form__input--datepicker{
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+    }
+}
+
+.blank{
+    border: 1px solid red;
+}
+
+.ngay_sinh-error{
+    order: 3;
+}
+
+.form__input--datepicker{
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-wrap: wrap-reverse;
+}
+
+.label-required::before{
+    content:"*";
+    color:red;
+}
+
+.error{
+    color:red;
+}
+
+select.error, input.error, textarea.error {
+    border: 1px solid red;
+    color: red;
+}
+
+.datepicker__input--dob, .datepicker__input--ngaycap{
+    width: 90%;
+}
+
+.footer{
+    height: 100px;
+}
+
+.fa-solid{
+    cursor: pointer;
+}
+
+@media only screen and (max-width: 524px) {
+    .pagination{
+        margin-top: 40px;
+    }
+}
+
+.black{
+    color: black;
+}
