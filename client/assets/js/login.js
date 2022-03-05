@@ -33,28 +33,31 @@ $(document).ready(function () {
                 }
             },
             submitHandler: function (form) {
-                console.log($(form).serializeArray());
-                console.log('Đăng nhập thành công');
-                window.location = './list_students.html';
-                //form.submit();
-                // $.ajax({
-                //     type: 'POST',
-                //     url: '',
-                //     data: $(this).serializeArray(),
-                //     success: function(response){
-                //         console.log('response: ', response)
-                //         if(response == 'success'){
-                //             var msg = '';
-                //             if (response == 1) {
-                //                 window.location = './list_students.html';
-                //             }
-                //             else {
-                //                 msg = 'Bạn đã nhập sai tài khoản hoặc mật khẩu'
-                //             }
-                //             $("#msg").html(msg);
-                //         }
-                //     },
-                // })
+                //console.log($(form).serializeArray());
+                //window.location = './list_students.html';
+                $.ajax({
+                    method: 'POST',
+                    url: '../../../server/api/authen/login.php',
+                    //headers: { "Authorization": localStorage.getItem('token') },
+                    data: {
+                        email: $('#email').val(),
+                        pass: $('#pass').val()
+                    },
+                    success: function (data) {
+                        localStorage.setItem('data', data.token);
+                        if (!data.success) {
+                            alert('Đang vào chờ tí....');
+                            $(location).attr('href', "./list_students.html");
+                            console.log(data);
+                        }
+                        else {
+                            alert("Sai tài khoản hoặc mật khẩu!!")
+                        }
+                    },
+                    error: function (data) {
+                        alert('Lỗi rồi báo lại coder....');
+                    },
+                })
             }
         });
         e.preventDefault();

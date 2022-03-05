@@ -7,7 +7,7 @@ $(document).ready(function () {
     });
 
     //input timepicker cho input ngày sinh và ngày cấp
-    $.fn.datepicker.defaults.format = 'dd/mm/yyyy';
+    $.fn.datepicker.defaults.format = 'yyyy-mm-dd';
     $('#datepicker-dob').datepicker({
         todayBtn: 'linked',
         language: 'it',
@@ -21,8 +21,49 @@ $(document).ready(function () {
         todayHighlight: true,
     });  
 
+    var endpoint = $(location).attr('search');
+    console.log(endpoint);
+
+    // hiển thị thông tin khi có ?id=
+    if (endpoint != "") {
+        $.ajax({
+            method: 'GET',
+            url: '../../../server/api/student/read.php' + endpoint,
+            dataType: 'json',
+            beforeSend: function (request) {
+                request.setRequestHeader("Authorization", "Bearer " + localStorage.getItem('data'));
+                // console.log(localStorage.getItem('data'));
+            },
+            success: function (data) {
+                console.log(data);
+                $.each(data.students, function (key, value) {
+                    console.log(value.id);
+                    $('#ma_ho_so').val(value.id);
+                    $('#ma_sinh_vien').val(value.profile_code);
+                    $('#ho_dem').val(value.firstname);
+                    $('#ten').val(value.lastname);
+                    $('#gioi_tinh').val(value.gender);
+                    $('#ngay_sinh').val(value.date_of_birth);
+                    $('#noi_sinh').val(value.place_of_birth);
+                    $('#dan_toc').val(value.race);
+                    $('#ton_giao').val(value.religion);
+                    $('#dien_thoai').val(value.phone);
+                    $('#email').val(value.email);
+                    $('#noi_cap').val(value.personal_email);
+                    $('#dia_chi').val(value.address);
+                    $('#cmnd').val(value.identity_number);
+                    $('#trang_thai').val(value.student_status);
+                    $('#ghi_chu').val(value.note);
+                });
+            },
+        });
+    }
+
+    // xử lí khi update hoặc create sinh viên
     $('#addForm').submit( function (e) {
         //xu li validate form
+
+        // console.log(formData);
         $('#addForm').validate({
             rules: {
                 ma_ho_so: {
@@ -86,108 +127,96 @@ $(document).ready(function () {
             //         error.append($('.errorTxt span'));
             //     }
             // },
-            submitHandler: function (form) {
-                console.log('Thêm thành công!!');
-                alert('Thêm thành công!!');
+            submitHandler: function (data) {
+                // console.log('Thêm thành công!!');
+                //alert('Thêm thành công!!');
                 //hiển thị dữ liệu vừa nhập thành công
-                console.log($( form ).serializeArray());
+                //console.log($( form ).serializeArray());
 
-                // sử dụng ajax
-                // $.ajax({
-                //     type: 'POST',
-                //     url: './add_students.html',
-                //     data: $( this ).serializeArray(),
-                //     success: function(response){
-                //         console.log('response: ', response)
-                //     },
-                // })
-                // form.submit();
+                // kiểm tra xem url có endpoint ?id=, không có thì call api create, có thì update
+                if ($(location).attr('search') == "") {
+                    // ajax them sinh vien
+                    $.ajax({
+                        method: 'POST',
+                        url: '../../../server/api/student/create.php',
+                        dataType: 'json',
+                        data: {
+                            profile_code: $("#ma_ho_so").val(),
+                            student_code: $("#ma_sinh_vien").val(),
+                            firstname: $("#ho_dem").val(),
+                            lastname: $("#ten").val(),
+                            gender: (($("#gioi_tinh").val() == 1) ? 'Nữ' : 'Nam'),
+                            date_of_birth: $("#ngay_sinh").val(),
+                            place_of_birth: $("#noi_sinh").val(),
+                            race: $("#dan_toc").val(),
+                            religion: $("#ton_giao").val(),
+                            phone: $("#dien_thoai").val(),
+                            email: $("#email").val(),
+                            personal_email: $("#noi_cap").val(),
+                            address: $("#dia_chi").val(),
+                            identity_number: $("#cmnd").val(),
+                            student_status: $("#trang_thai").val() == "",
+                            note: $("#ghi_chu").val(),
+                        },
+                        beforeSend: function (request) {
+                            request.setRequestHeader("Authorization", "Bearer " + localStorage.getItem('data'));
+                            // console.log(localStorage.getItem('data'));
+                        },
+                        success: function (data) {
+                            if (!data.success) {
+                                alert('Thêm thành công');
+                                $(location).attr('href', "./list_students.html");
+                                // console.log(data);
+                            }
+                            else {
+                                alert("Lỗi rồi nhập lại nhá bạn")
+                            }
+                        },
+                    });
+                }
+                else {
+                    $.ajax({
+                        method: 'POST',
+                        url: '../../../server/api/student/update.php' + endpoint,
+                        dataType: 'json',
+                        data: {
+                            profile_code: $("#ma_ho_so").val(),
+                            student_code: $("#ma_sinh_vien").val(),
+                            firstname: $("#ho_dem").val(),
+                            lastname: $("#ten").val(),
+                            gender: (($("#gioi_tinh").val() == 1) ? 'Nữ' : 'Nam'),
+                            date_of_birth: $("#ngay_sinh").val(),
+                            place_of_birth: $("#noi_sinh").val(),
+                            race: $("#dan_toc").val(),
+                            religion: $("#ton_giao").val(),
+                            phone: $("#dien_thoai").val(),
+                            email: $("#email").val(),
+                            personal_email: $("#noi_cap").val(),
+                            address: $("#dia_chi").val(),
+                            identity_number: $("#cmnd").val(),
+                            student_status: $("#trang_thai").val() == "",
+                            note: $("#ghi_chu").val(),
+                        },
+                        beforeSend: function (request) {
+                            request.setRequestHeader("Authorization", "Bearer " + localStorage.getItem('data'));
+                            // console.log(localStorage.getItem('data'));
+                        },
+                        success: function (data) {
+                            if (!data.success) {
+                                alert('Sửa thành công');
+                                $(location).attr('href', "./list_students.html");
+                                // console.log(data);
+                            }
+                            else {
+                                alert("Lỗi rồi nhập lại nhá bạn")
+                            }
+                        },
+                    });
+                }  
             }
         });
-
-        //sử dụng .each() lặp qua tất cả các ô input có class là required
-        // $('.required').each(function () {
-        //     if ($(this).attr('name') === 'email') { //kiểm tra xem ô input nào có name = "email", gán rule check xem có phải là email không
-        //         $(this).rules('add', {
-        //             isSpace: true,
-        //             isEmail: true,
-        //         });
-        //     }
-        //     else if ($(this).attr('name') === 'dien_thoai' ) { //kiểm tra xem input nào có name = dien_thoai, gán rule check sdt
-        //         $(this).rules('add', {
-        //             isSpace: true,
-        //             isPhone: true,
-        //         });
-        //     }
-        //     else if ($(this).attr('name') === 'ngay_sinh') { //kiểm tra xem input nào có name = ngay_sinh, gán rule check ngay sinh
-        //         $(this).rules('add', {
-        //             isSpace: true,
-        //             isDate: true,
-        //         });
-        //     }
-        //     else { //gán rule kiểm tra cho tất cả các input required còn lại
-        //         $(this).rules('add', { 
-        //             isSpace: true,
-        //             required: true,
-        //         });
-        //     }
-        // });
 
         e.preventDefault();
     });
     
 });
-
-
-    // $(document).ready(function (e) {
-    //     $("#addForm").submit(function () {
-    //         $flag = true;
-
-    //         $(this).find(".required").each(function () {
-    //             //dieu kien if elseif check xem input required nao la email, phone
-    //             if ($(this).attr('id') === "email") {
-    //                 if (isNull($(this).val())) {
-    //                     if (isEmail($(this).val())) {
-    //                         $(this).removeClass("blank").siblings(".error").children("small").html("");
-    //                     }
-    //                     else {
-    //                         $flag = false;
-    //                         $(this).addClass("blank").siblings(".error").children("small").html("Vui lòng điền email");
-    //                     }
-    //                 }
-    //                 else {
-    //                     $flag = false;
-    //                     $(this).addClass("blank").siblings(".error").children("small").html("Vui lòng điền vào mục này");
-    //                 }
-    //             }
-    //             else if ($(this).attr('id') === "dien_thoai") {
-    //                 if (isNull($(this).val())) {
-    //                     if (isPhoneNumber($(this).val())) {
-    //                         $(this).removeClass("blank").siblings(".error").children("small").html("");
-    //                     }
-    //                     else {
-    //                         $flag = false;
-    //                         $(this).addClass("blank").siblings(".error").children("small").html("Vui lòng điền đúng sdt");
-    //                     }
-    //                 }
-    //                 else {
-    //                     $flag = false;
-    //                     $(this).addClass("blank").siblings(".error").children("small").html("Vui lòng điền vào mục này");
-    //                 }
-    //             }
-    //             else {
-    //                 if (!isNull($(this).val())) {
-    //                     $flag = false;
-    //                     $(this).addClass("blank").siblings(".error").children("small").html("Vui lòng điền vào mục này");
-    //                 }
-    //                 else {
-    //                     $(this).removeClass("blank").siblings(".error").children("small").html("");
-    //                 }
-    //             }
-    //         });
-    //         //return $flag;   
-
-    //         console.log($(this).serializeArray());
-    //         event.preventDefault();
-    //     });
-    // })

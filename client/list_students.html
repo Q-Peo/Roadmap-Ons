@@ -15,7 +15,32 @@
     <link rel="stylesheet" href="./assets/css/style.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/paginationjs/2.1.5/pagination.css" integrity="sha512-QmxybGIvkSI8+CGxkt5JAcGOKIzHDqBMs/hdemwisj4EeGLMXxCm9h8YgoCwIvndnuN1NdZxT4pdsesLXSaKaA==" crossorigin="anonymous" referrerpolicy="no-referrer" />
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
-    <script src="./assets/js/pagination.js"></script>
+    <script>
+        function deleteFun(id){
+            // console.log(typeof id);
+            if(confirm('Bạn có chắc chắn xóa sinh viên này không?')) {
+                $.ajax({
+                    method: 'DELETE',
+                    url: '../../../server/api/student/delete.php?id='+id,
+                    dataType: 'json',
+                    data: {
+                        id: id,
+                    },
+                    beforeSend: function (request) {
+                        request.setRequestHeader("Authorization", "Bearer " + localStorage.getItem('data'));
+                        // console.log(localStorage.getItem('data'));
+                    },
+                    success: function (data) {
+                        alert("Bạn đã xóa thành công!!");
+                        location.reload();
+                    },
+                });
+            }
+            else {
+                return false;
+            }
+        }
+    </script>
 </head>
 
 <body>
@@ -24,7 +49,7 @@
             <h2 class="mb-3">Danh sách sinh viên</h2>
             <div class="row justify-content-center">    
                 <div class="col-xl-10">
-                    <div class="row mb-2">
+                    <!-- <div class="row mb-2">
                         <div class="col-sm-3">
                             <div class="form-group row">
                                 <label for="ho_va_ten" class="col-md-5 col-form-label">Họ và tên: </label>
@@ -57,7 +82,7 @@
                                 </div>
                             </div>
                         </div>   
-                    </div>
+                    </div> -->
                     <div class="row mb-2">
                         <div class="col-sm-3">
                             <div class="form-group row">
@@ -116,253 +141,26 @@
                     <thead class="table-dark">
                         <tr>
                             <th>STT</th>
-                            <th scope="col">Đợt khai giảng</th>
                             <th scope="col">Mã hồ sơ</th>
                             <th scope="col">Mã sinh viên</th>
-                            <th scope="col">Họ tên</th>
+                            <th scope="col">Họ và tên</th>
+                            <th scope="col">Giới tính</th>
                             <th scope="col">Ngày sinh</th>
+                            <th scope="col">Nơi sinh</th>
+                            <th scope="col">Quốc tịch</th>
+                            <th scope="col">Tôn giáo</th>
                             <th scope="col">Số điện thoại</th>
                             <th scope="col">Email</th>
-                            <th scope="col">Ngành</th>
-                            <th scope="col">Đối tượng</th>
-                            <th scope="col">Phân loại đối tượng</th>
-                            <th scope="col">Lớp quản lý</th>
-                            <th scope="col">Tài khoản học tập</th>
-                            <th scope="col">Quản lý học tập</th>
+                            <th scope="col">Email cá nhân</th>
+                            <th scope="col">Địa chỉ</th>
+                            <th scope="col">CMND</th>
+                            <th scope="col">Trạng thái sinh viên</th>
+                            <th scope="col">Ghi chú</th>
                             <th scope="col">Hành động</th>
                         </tr>
                     </thead>
                     <tbody>
-                        <tr class="table-item">
-                            <th scope="row">1</th>
-                            <td>26/04/21 (HCM)</td>
-                            <td>TVU01234</td>
-                            <td>123456789</td>
-                            <td>Huỳnh Thị Kim Hồng</td>
-                            <td>0987654312</td>
-                            <td>honght@gmail.com</td>
-                            <td>20/11/1995</td>
-                            <td>Luật</td>
-                            <td>VB2</td>
-                            <td></td>
-                            <td>VX21L2</td>
-                            <td>hongtkh21212</td>
-                            <td>MyLTN</td>
-                            <td>
-                                <div class="btn-group" role="group" aria-label="Basic example">
-                                    <button type="button" class="btn"><i class="fa-solid fa-eye"></i></button>
-                                    <button type="button" class="btn"><i class="fa-solid fa-pen-to-square"></i></button>
-                                    <button type="button" class="btn"><i class="fa-solid fa-trash-can"></i></button>
-                                </div>
-                            </td>
-                        </tr>
-                        <tr class="table-item">
-                            <th scope="row">2</th>
-                            <td>26/04/21 (HCM)</td>
-                            <td>TVU01234</td>
-                            <td>123456789</td>
-                            <td>Nguyễn Thúy An</td>
-                            <td>0987654312</td>
-                            <td>honght@gmail.com</td>
-                            <td>20/11/1995</td>
-                            <td>Luật</td>
-                            <td>VB2</td>
-                            <td></td>
-                            <td>VX21L2</td>
-                            <td>hongtkh21212</td>
-                            <td>MyLTN</td>
-                            <td>
-                                <div class="btn-group" role="group" aria-label="Basic example">
-                                    <button type="button" class="btn"><i class="fa-solid fa-eye"></i></button>
-                                    <button type="button" class="btn"><i class="fa-solid fa-pen-to-square"></i></button>
-                                    <button type="button" class="btn"><i class="fa-solid fa-trash-can"></i></button>
-                                </div>
-                            </td>
-                        </tr>
-                        <tr class="table-item">>
-                            <th scope="row">3</th>
-                            <td>26/04/21 (HCM)</td>
-                            <td>TVU01234</td>
-                            <td>123456789</td>
-                            <td>Nguyễn Mai Anh</td>
-                            <td>0987654312</td>
-                            <td>honght@gmail.com</td>
-                            <td>20/11/1995</td>
-                            <td>Luật</td>
-                            <td>VB2</td>
-                            <td></td>
-                            <td>VX21L2</td>
-                            <td>hongtkh21212</td>
-                            <td>MyLTN</td>
-                            <td>
-                                <div class="btn-group" role="group" aria-label="Basic example">
-                                    <button type="button" class="btn"><i class="fa-solid fa-eye"></i></button>
-                                    <button type="button" class="btn"><i class="fa-solid fa-pen-to-square"></i></button>
-                                    <button type="button" class="btn"><i class="fa-solid fa-trash-can"></i></button>
-                                </div>
-                            </td>
-                        </tr>
-                        <tr class="table-item">
-                            <th scope="row">4</th>
-                            <td>26/04/21 (HCM)</td>
-                            <td>TVU01234</td>
-                            <td>123456789</td>
-                            <td>Nguyễn Đình Nguyên</td>
-                            <td>0987654312</td>
-                            <td>honght@gmail.com</td>
-                            <td>20/11/1995</td>
-                            <td>Luật</td>
-                            <td>VB2</td>
-                            <td></td>
-                            <td>VX21L2</td>
-                            <td>hongtkh21212</td>
-                            <td>MyLTN</td>
-                            <td>
-                                <div class="btn-group" role="group" aria-label="Basic example">
-                                    <button type="button" class="btn"><i class="fa-solid fa-eye"></i></button>
-                                    <button type="button" class="btn"><i class="fa-solid fa-pen-to-square"></i></button>
-                                    <button type="button" class="btn"><i class="fa-solid fa-trash-can"></i></button>
-                                </div>
-                            </td>
-                        </tr>
-                        <tr class="table-item">
-                            <th scope="row">5</th>
-                            <td>26/04/21 (HCM)</td>
-                            <td>TVU01234</td>
-                            <td>123456789</td>
-                            <td>Huỳnh Thị Kim Hồng</td>
-                            <td>0987654312</td>
-                            <td>honght@gmail.com</td>
-                            <td>20/11/1995</td>
-                            <td>Luật</td>
-                            <td>VB2</td>
-                            <td></td>
-                            <td>VX21L2</td>
-                            <td>hongtkh21212</td>
-                            <td>MyLTN</td>
-                            <td>
-                                <div class="btn-group" role="group" aria-label="Basic example">
-                                    <button type="button" class="btn"><i class="fa-solid fa-eye"></i></button>
-                                    <button type="button" class="btn"><i class="fa-solid fa-pen-to-square"></i></button>
-                                    <button type="button" class="btn"><i class="fa-solid fa-trash-can"></i></button>
-                                </div>
-                            </td>
-                        </tr>
-                        <tr class="table-item">
-                            <th scope="row">6</th>
-                            <td>26/04/21 (HCM)</td>
-                            <td>TVU01234</td>
-                            <td>123456789</td>
-                            <td>Lê Nguyễn Hoàng Lan</td>
-                            <td>0987654312</td>
-                            <td>honght@gmail.com</td>
-                            <td>20/11/1995</td>
-                            <td>Luật</td>
-                            <td>VB2</td>
-                            <td></td>
-                            <td>VX21L2</td>
-                            <td>hongtkh21212</td>
-                            <td>MyLTN</td>
-                            <td>
-                                <div class="btn-group" role="group" aria-label="Basic example">
-                                    <button type="button" class="btn"><i class="fa-solid fa-eye"></i></button>
-                                    <button type="button" class="btn"><i class="fa-solid fa-pen-to-square"></i></button>
-                                    <button type="button" class="btn"><i class="fa-solid fa-trash-can"></i></button>
-                                </div>
-                            </td>
-                        </tr>
-                        <tr class="table-item">
-                            <th scope="row">7</th>
-                            <td>26/04/21 (HCM)</td>
-                            <td>TVU01234</td>
-                            <td>123456789</td>
-                            <td>Huỳnh Thị Kim Hồng</td>
-                            <td>0987654312</td>
-                            <td>honght@gmail.com</td>
-                            <td>20/11/1995</td>
-                            <td>Luật</td>
-                            <td>VB2</td>
-                            <td></td>
-                            <td>VX21L2</td>
-                            <td>hongtkh21212</td>
-                            <td>MyLTN</td>
-                            <td>
-                                <div class="btn-group" role="group" aria-label="Basic example">
-                                    <button type="button" class="btn"><i class="fa-solid fa-eye"></i></button>
-                                    <button type="button" class="btn"><i class="fa-solid fa-pen-to-square"></i></button>
-                                    <button type="button" class="btn"><i class="fa-solid fa-trash-can"></i></button>
-                                </div>
-                            </td>
-                        </tr>
-                        <tr class="table-item">
-                            <th scope="row">8</th>
-                            <td>26/04/21 (HCM)</td>
-                            <td>TVU01234</td>
-                            <td>123456789</td>
-                            <td>Lê Tuấn Anh</td>
-                            <td>0987654312</td>
-                            <td>honght@gmail.com</td>
-                            <td>20/11/1995</td>
-                            <td>Luật</td>
-                            <td>VB2</td>
-                            <td></td>
-                            <td>VX21L2</td>
-                            <td>hongtkh21212</td>
-                            <td>MyLTN</td>
-                            <td>
-                                <div class="btn-group" role="group" aria-label="Basic example">
-                                    <button type="button" class="btn"><i class="fa-solid fa-eye"></i></button>
-                                    <button type="button" class="btn"><i class="fa-solid fa-pen-to-square"></i></button>
-                                    <button type="button" class="btn"><i class="fa-solid fa-trash-can"></i></button>
-                                </div>
-                            </td>
-                        </tr>
-                        <tr class="table-item">
-                            <th scope="row">9</th>
-                            <td>26/04/21 (HCM)</td>
-                            <td>TVU01234</td>
-                            <td>123456789</td>
-                            <td>Phạm Diễm My</td>
-                            <td>0987654312</td>
-                            <td>honght@gmail.com</td>
-                            <td>20/11/1995</td>
-                            <td>Luật</td>
-                            <td>VB2</td>
-                            <td></td>
-                            <td>VX21L2</td>
-                            <td>hongtkh21212</td>
-                            <td>MyLTN</td>
-                            <td>
-                                <div class="btn-group" role="group" aria-label="Basic example">
-                                    <button type="button" class="btn"><i class="fa-solid fa-eye"></i></button>
-                                    <button type="button" class="btn"><i class="fa-solid fa-pen-to-square"></i></button>
-                                    <button type="button" class="btn"><i class="fa-solid fa-trash-can"></i></button>
-                                </div>
-                            </td>
-                        </tr>
-                        <tr class="table-item">
-                            <th scope="row">10</th>
-                            <td>26/04/21 (HCM)</td>
-                            <td>TVU01234</td>
-                            <td>123456789</td>
-                            <td>Đặng Minh Quân</td>
-                            <td>0987654312</td>
-                            <td>honght@gmail.com</td>
-                            <td>20/11/1995</td>
-                            <td>Luật</td>
-                            <td>VB2</td>
-                            <td></td>
-                            <td>VX21L2</td>
-                            <td>hongtkh21212</td>
-                            <td>MyLTN</td>
-                            <td>
-                                <div class="btn-group" role="group" aria-label="Basic example">
-                                    <button type="button" class="btn"><i class="fa-solid fa-eye"></i></button>
-                                    <button type="button" class="btn"><i class="fa-solid fa-pen-to-square"></i></button>
-                                    <button type="button" class="btn"><i class="fa-solid fa-trash-can"></i></button>
-                                </div>
-                            </td>
-                        </tr>
+
                     </tbody>
                 </table>
             </div>
@@ -399,22 +197,47 @@
         </div>
     </section>
 
-    <!-- sử dụng plug-in pagination  -->
-    <!-- <script src="/client/assets/js/jquery-validation-1.19.3/dist/jquery.validate.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/paginationjs/2.1.5/pagination.min.js" integrity="sha512-1zzZ0ynR2KXnFskJ1C2s+7TIEewmkB2y+5o/+ahF7mwNj9n3PnzARpqalvtjSbUETwx6yuxP5AJXZCpnjEJkQw==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
-    <script type='text/javascript'>
-        let rows = [];
-        $('table tbody .table-item').each(function (i, row) {
-            return rows.push(row);
-        })
-
-        $('#demo').pagination({
-            dataSource: rows,
-            pageSize: 4,
-            callback: function(data, pagination) {
-                $('tbody').html(data);
-            }
+    <script type="text/javascript">
+        $(document).ready(function () {
+            var options = {};
+            options.url = "../../../server/api/student/read.php";
+            options.type = "GET";
+            options.beforeSend = function (request) {
+                request.setRequestHeader("Authorization", "Bearer " + localStorage.getItem('data'));
+                // console.log(localStorage.getItem('data'));
+            };
+            options.dataType = "json";
+            options.success = function (data) {
+                console.log(data);
+                var no = 1;
+                $.each(data.students, function (key, value) {
+                    $("tbody").append("<tr class='table-item'><td>" + no++ + "</td>" +
+                    "<td>" + value.profile_code +"</td>"+
+                    "<td>" + value.student_code + "</td>" +
+                    "<td>" + value.firstname + " " + value.lastname + "</td>" +
+                    "<td>" + value.gender + "</td>" +
+                    "<td>" + value.date_of_birth + "</td>" +
+                    "<td>" + value.place_of_birth + "</td>" +
+                    "<td>" + value.race + "</td>" +
+                    "<td>" + value.religion + "</td>" +
+                    "<td>" + value.phone + "</td>" +
+                    "<td>" + value.email + "</td>" +
+                    "<td>" + value.personal_email + "</td>" +
+                    "<td>" + value.address + "</td>" +
+                    "<td>" + value.identity_number + "</td>" +
+                    "<td>" + value.student_status + "</td>" +
+                    "<td>" + value.note + "</td>" + 
+                    "<td>" +
+                        "<div class='btn-group' role='group' aria-label='Basic example'>" +
+                            "<button type='button' class='btn' onclick=\"window.location.href = './add_students.html?id=" + value.id + "';\"><i class='fa-solid fa-eye'></i></button>" +
+                            "<button type='button' class='btn' onclick=\"window.location.href = './add_students.html?id=" + value.id + "';\"><i class='fa-solid fa-pen-to-square'></i></button>" +
+                            "<button type='button' class='btn' id='delete' onclick='deleteFun("+value.id+")'><i class='fa-solid fa-trash-can'></i></button>" +
+                       "</div>"
+                    + "</td></tr>");
+                });
+            };
+            $.ajax(options);
         });
-    </script> -->
+    </script>
 </body> 
 </html>

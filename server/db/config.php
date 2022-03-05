@@ -11,15 +11,11 @@
         {
             $this->conn = null;
 
-            // tao connection
-            $this->conn = new mysqli($this->server_name, $this->username, $this->password, $this->db_name);
+            $this->conn = mysqli_connect($this->server_name, $this->username, $this->password, $this->db_name);
 
-            // kiem tra connection
-            if ($this->conn->connect_error) {
-                die("Connected thất bại: " . $this->conn->connect_error);
+            if (!$this->conn) {
+                die("Connected thất bại: " . $this->conn);
             }
-            echo "Connected thành công";
-
             return $this->conn;
         }
     
