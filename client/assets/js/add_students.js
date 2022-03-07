@@ -24,8 +24,10 @@ $(document).ready(function () {
     var endpoint = $(location).attr('search');
     console.log(endpoint);
 
-    // hiển thị thông tin khi có ?id=
+    // hiển thị thông tin khi có param id url
     if (endpoint != "") {
+        $('#btnHandle').html('Sửa');
+        $('.title').html('Sửa sinh viên');
         $.ajax({
             method: 'GET',
             url: '../../../server/api/student/read.php' + endpoint,
@@ -37,12 +39,11 @@ $(document).ready(function () {
             success: function (data) {
                 console.log(data);
                 $.each(data.students, function (key, value) {
-                    console.log(value.id);
-                    $('#ma_ho_so').val(value.id);
-                    $('#ma_sinh_vien').val(value.profile_code);
+                    $('#ma_ho_so').val(value.profile_code);
+                    $('#ma_sinh_vien').val(value.student_code);
                     $('#ho_dem').val(value.firstname);
                     $('#ten').val(value.lastname);
-                    $('#gioi_tinh').val(value.gender);
+                    $("#gioi_tinh").val(value.gender === 'Nam' ? 0 : 1).change();
                     $('#ngay_sinh').val(value.date_of_birth);
                     $('#noi_sinh').val(value.place_of_birth);
                     $('#dan_toc').val(value.race);
@@ -58,7 +59,7 @@ $(document).ready(function () {
             },
         });
     }
-
+    
     // xử lí khi update hoặc create sinh viên
     $('#addForm').submit( function (e) {
         //xu li validate form
@@ -155,7 +156,7 @@ $(document).ready(function () {
                             personal_email: $("#noi_cap").val(),
                             address: $("#dia_chi").val(),
                             identity_number: $("#cmnd").val(),
-                            student_status: $("#trang_thai").val() == "",
+                            student_status: $("#trang_thai").val(),
                             note: $("#ghi_chu").val(),
                         },
                         beforeSend: function (request) {
@@ -165,7 +166,7 @@ $(document).ready(function () {
                         success: function (data) {
                             if (!data.success) {
                                 alert('Thêm thành công');
-                                $(location).attr('href', "./list_students.html");
+                                $(location).attr('href', "./list_students.html?page=1&&row_per_page=4");
                                 // console.log(data);
                             }
                             else {
@@ -194,7 +195,7 @@ $(document).ready(function () {
                             personal_email: $("#noi_cap").val(),
                             address: $("#dia_chi").val(),
                             identity_number: $("#cmnd").val(),
-                            student_status: $("#trang_thai").val() == "",
+                            student_status: $("#trang_thai").val(),
                             note: $("#ghi_chu").val(),
                         },
                         beforeSend: function (request) {
@@ -204,7 +205,7 @@ $(document).ready(function () {
                         success: function (data) {
                             if (!data.success) {
                                 alert('Sửa thành công');
-                                $(location).attr('href', "./list_students.html");
+                                $(location).attr('href', "./list_students.html?page=1&&row_per_page=4");
                                 // console.log(data);
                             }
                             else {
@@ -218,5 +219,4 @@ $(document).ready(function () {
 
         e.preventDefault();
     });
-    
 });

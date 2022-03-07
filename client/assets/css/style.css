@@ -115,3 +115,7 @@ select.error, input.error, textarea.error {
 .black{
     color: black;
 }
+
+.pointed {
+    cursor: pointer;
+}

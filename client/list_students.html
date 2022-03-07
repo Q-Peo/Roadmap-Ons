@@ -15,32 +15,6 @@
     <link rel="stylesheet" href="./assets/css/style.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/paginationjs/2.1.5/pagination.css" integrity="sha512-QmxybGIvkSI8+CGxkt5JAcGOKIzHDqBMs/hdemwisj4EeGLMXxCm9h8YgoCwIvndnuN1NdZxT4pdsesLXSaKaA==" crossorigin="anonymous" referrerpolicy="no-referrer" />
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
-    <script>
-        function deleteFun(id){
-            // console.log(typeof id);
-            if(confirm('Bạn có chắc chắn xóa sinh viên này không?')) {
-                $.ajax({
-                    method: 'DELETE',
-                    url: '../../../server/api/student/delete.php?id='+id,
-                    dataType: 'json',
-                    data: {
-                        id: id,
-                    },
-                    beforeSend: function (request) {
-                        request.setRequestHeader("Authorization", "Bearer " + localStorage.getItem('data'));
-                        // console.log(localStorage.getItem('data'));
-                    },
-                    success: function (data) {
-                        alert("Bạn đã xóa thành công!!");
-                        location.reload();
-                    },
-                });
-            }
-            else {
-                return false;
-            }
-        }
-    </script>
 </head>
 
 <body>
@@ -168,21 +142,21 @@
             <div class="table--page">
                 <nav class="pagination-nav">
                     <ul class="pagination justify-content-center">
-                        <!-- <li class="page-item">
-                            <a class="page-link border-white" href="#" aria-label="Previous">
+                        <li class="page-item page-prev pointed">
+                            <a class="page-link border-white a-prev">
                                 <span aria-hidden="true"><i class="fa-solid fa-angle-left"></i></span>
                                 <span class="sr-only">Previous</span>
                             </a>
                         </li>
-                        <li class="page-item"><a class="page-link rounded-circle" href="#">1</a></li>
+                        <!-- <li class="page-item"><a class="page-link rounded-circle" href="#">1</a></li>
                         <li class="page-item"><a class="page-link rounded-circle" href="#">2</a></li>
-                        <li class="page-item"><a class="page-link rounded-circle" href="#">3</a></li>
-                        <li class="page-item">
-                            <a class="page-link border-white" href="#" aria-label="Next">
+                        <li class="page-item"><a class="page-link rounded-circle" href="#">3</a></li> -->
+                        <li class="page-item page-next pointed">
+                            <a class="page-link border-white a-next">
                                 <span aria-hidden="true"><i class="fa-solid fa-angle-right"></i></span>
                                 <span class="sr-only">Next</span>
                             </a>
-                        </li> -->
+                        </li>
                     </ul>
                 </nav>
                 
@@ -199,8 +173,21 @@
 
     <script type="text/javascript">
         $(document).ready(function () {
+            var endpoint = $(location).attr('search');
+            // console.log(endpoint);
+
+            $currentPage = 1;
+            var dem = 0;
+
+            // lấy url 
+            let url = new URL(window.location.href);
+            var $page = 1;
+            // lấy endpoint page của url
+            $page = url.searchParams.get('page');
+            $row_per_page = url.searchParams.get('row_per_page');
+
             var options = {};
-            options.url = "../../../server/api/student/read.php";
+            options.url = "../../../server/api/student/pagination.php?page=" + $page + "&row_per_page=4";
             options.type = "GET";
             options.beforeSend = function (request) {
                 request.setRequestHeader("Authorization", "Bearer " + localStorage.getItem('data'));
@@ -208,10 +195,11 @@
             };
             options.dataType = "json";
             options.success = function (data) {
-                console.log(data);
+                // console.log(data.students.length);
+                // console.log(data.students);
                 var no = 1;
                 $.each(data.students, function (key, value) {
-                    $("tbody").append("<tr class='table-item'><td>" + no++ + "</td>" +
+                    $("tbody").append("<tr class='table-item'><td>" + value.id + "</td>" +
                     "<td>" + value.profile_code +"</td>"+
                     "<td>" + value.student_code + "</td>" +
                     "<td>" + value.firstname + " " + value.lastname + "</td>" +
@@ -231,12 +219,63 @@
                         "<div class='btn-group' role='group' aria-label='Basic example'>" +
                             "<button type='button' class='btn' onclick=\"window.location.href = './add_students.html?id=" + value.id + "';\"><i class='fa-solid fa-eye'></i></button>" +
                             "<button type='button' class='btn' onclick=\"window.location.href = './add_students.html?id=" + value.id + "';\"><i class='fa-solid fa-pen-to-square'></i></button>" +
-                            "<button type='button' class='btn' id='delete' onclick='deleteFun("+value.id+")'><i class='fa-solid fa-trash-can'></i></button>" +
+                            // "<button type='button' class='btn' onclick='deleteFun("+value.id+")'><i class='fa-solid fa-trash-can'></i></button>" +
+                            "<button type='button' class='btn btn-delete' id='delete-"+value.id+"'><i class='fa-solid fa-trash-can'></i></button>" +
                        "</div>"
                     + "</td></tr>");
                 });
+                $countRows = Math.ceil(data.countRows/$row_per_page);
+                for(var i = 1; i <= $countRows ;i++){
+                    // console.log('a' + i);
+                    dem++;
+                    $("<li class='page-item'><a class='page-link' href='./list_students.html?page=" + i + "&row_per_page=4'>"+ i +"</a></li>").insertBefore(".page-next");
+                }
+
+                $countPages = data.countPages;
+                console.log($countPages);
+                // $('.a-next').click(function (){ 
+                //     if($page < $countPages && $countPages > 1){
+                //         $(this).attr('href', './list_students.html?page='+($page+1)+'&row_per_page=4');
+                //     }  
+                // });
+                $('.a-prev').click(function (){ 
+                    if($page > 1 && $countPages > 1){
+                        $(this).attr('href', './list_students.html?page='+($page-1)+'&row_per_page=4');
+                    }
+                });
             };
-            $.ajax(options);
+
+            $.ajax(options).then(() => {
+                $(".btn-delete").click(function () {
+                    const id = this.id.slice(7);
+                    deleteFun(id);
+                })
+            });
+
+            function deleteFun(id){
+                // console.log(typeof id);
+                if(confirm('Bạn có chắc chắn xóa sinh viên này không?')) {
+                    $.ajax({
+                        method: 'DELETE',
+                        url: '../../../server/api/student/delete.php?id='+id,
+                        dataType: 'json',
+                        data: {
+                            id: id,
+                        },
+                        beforeSend: function (request) {
+                            request.setRequestHeader("Authorization", "Bearer " + localStorage.getItem('data'));
+                            // console.log(localStorage.getItem('data'));
+                        },
+                        success: function (data) {
+                            alert("Bạn đã xóa thành công!!");
+                            location.href("./list_students.html?page=1&&row_per_page=4");
+                        },
+                    });
+                }
+                else {
+                    return false;
+                }
+            }
         });
     </script>
 </body> 

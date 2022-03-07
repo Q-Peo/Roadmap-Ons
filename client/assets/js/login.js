@@ -47,8 +47,8 @@ $(document).ready(function () {
                         localStorage.setItem('data', data.token);
                         if (!data.success) {
                             alert('Đang vào chờ tí....');
-                            $(location).attr('href', "./list_students.html");
-                            console.log(data);
+                            $(location).attr('href', "./list_students.html?page=1&row_per_page=4");
+                            // console.log(data);
                         }
                         else {
                             alert("Sai tài khoản hoặc mật khẩu!!")
