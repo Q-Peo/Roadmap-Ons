@@ -23,7 +23,7 @@
         // $data = json_decode(file_get_contents("php://input"));
         
         if (
-        !empty($_REQUEST['id']) &&
+            !empty($_REQUEST['id']) &&
             !empty($_POST['profile_code']) && !empty($_POST['student_code']) &&
             !empty($_POST['firstname']) && !empty($_POST['lastname']) &&
             !empty($_POST['gender']) && !empty($_POST['date_of_birth']) &&

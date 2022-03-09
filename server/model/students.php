@@ -34,7 +34,7 @@
             if ($this->id) {
                 $stmt = $this->conn->prepare("SELECT * FROM students." . $this->table . " WHERE id = ?");
                 $stmt->bind_param("i", $this->id);
-            } else {
+            } else{
                 // $stmt = $this->conn->prepare("SELECT * FROM students." . $this->table . " ORDER BY id LIMIT 0, 5");
                 $stmt = $this->conn->prepare("SELECT * FROM students." . $this->table . "");
             }
@@ -182,6 +182,17 @@
             return false;
         }
 
+        // public function search() {
+        //     $stmt = $this->conn->prepare("SELECT * FROM `students`." . $this->table . " WHERE ");
+
+        //     $this->id = htmlspecialchars(strip_tags($this->id));
+
+        //     $stmt->bind_param("i", $this->id);
+
+        //     $stmt->execute();
+        //     $result = $stmt->get_result();
+        //     return $result;
+        // }
     }
 
 ?>

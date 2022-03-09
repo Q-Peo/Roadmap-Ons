@@ -34,12 +34,12 @@
             <form id="addForm" class="form-inline container-xl mb-4">
                 <div class="row mb-2">
                     <div class="form-group col-sm-4 mb-2">
-                        <label for="" class="mb-2 label-required">Mã hồ sơ</label>
+                        <label for="" class="mb-2 label-required">Mã hồ sơ:</label>
                         <input type="text" class="form-control required" name="ma_ho_so" id="ma_ho_so">
                         <span class="error"><small></small></span>
                     </div>
                     <div class="form-group col-sm-4">
-                        <label for="" class="mb-2 label-required">Mã sinh viên</label>
+                        <label for="" class="mb-2 label-required">Mã sinh viên:</label>
                         <input type="text" class="form-control required" name="ma_sinh_vien" id="ma_sinh_vien">
                         <span class="error"><small></small></span>
                     </div>
@@ -51,7 +51,7 @@
                         <span class="error"><small></small></span>
                     </div>
                     <div class="form-group col-sm-4">
-                        <label for="" class="mb-2 label-required">Tên</label>
+                        <label for="" class="mb-2 label-required">Tên:</label>
                         <input type="text" class="form-control required" name="ten" id="ten">
                         <span class="error"><small></small></span>
                     </div>
@@ -90,30 +90,18 @@
                         <input type="text" class="form-control" name="dan_toc" id="dan_toc">
                     </div>
                     <div class="form-group col-sm-4">
-                        <label for="" class="mb-2">Tôn giáo</label>
+                        <label for="" class="mb-2">Tôn giáo:</label>
                         <input type="text" class="form-control" name="ton_giao" id="ton_giao">
                     </div>
                 </div>
                 <div class="row mb-2">
-                    <div class="form-group col-sm mb-2">
+                    <div class="form-group col-sm-4 mb-2">
                         <label for="" class="mb-2">Số CMND/CCCD:</label>
                         <input type="text" class="form-control" name="cmnd" id="cmnd">
                     </div>
-                    <div class="form-group col-sm mb-2">
-                        <label for="" class="mb-2">Ngày cấp:</label>
-                        <div class="form__input--datepicker date" id="datepicker-ngaycap">
-                            <input type="text" class="form-control datepicker__input--ngaycap" 
-                                placeholder="dd/mm/yyyy" name="ngay_cap">
-                            <span class="input-group-append">
-                                <i class="fa-solid fa-calendar-days fa-xl"></i>
-                            </span>
-                        </div>
-                    </div>
-                    <div class="col-sm">
-                        <div class="form-group">
-                            <label for="" class="mb-2">Nơi cấp:</label>
-                            <input type="text" class="form-control" name="noi_cap" id="noi_cap">
-                        </div>
+                    <div class="form-group col-sm-4">
+                        <label for="" class="mb-2">Email cá nhân:</label>
+                        <input type="text" class="form-control" name="personal_email" id="personal_email">
                     </div>
                 </div>
                 
@@ -124,7 +112,7 @@
                         <span class="error"><small></small></span>
                     </div>
                     <div class="form-group col-sm-4">
-                        <label for="" class="mb-2 label-required">Email cá nhân</label>
+                        <label for="" class="mb-2 label-required">Email:</label>
                         <input type="text" class="form-control required" name="email" id="email">
                         <span class="error"><small></small></span>
                     </div>
@@ -153,7 +141,7 @@
                     <div class="form-group form-group--btn">
                         <button type="submit" class="btn btn-primary" id="btnHandle">Thêm mới</button>
                         <button type="button" class="btn btn-danger" 
-                            onclick="window.location.href = './list_students.html?page=1&&row_per_page=4';">Hủy</button>
+                            onclick="window.location.href = './list_students.html?page=1&row_per_page=4';">Hủy</button>
                     </div>
                 </div>       
             </form>

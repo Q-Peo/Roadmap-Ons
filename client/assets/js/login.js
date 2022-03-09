@@ -51,7 +51,7 @@ $(document).ready(function () {
                             // console.log(data);
                         }
                         else {
-                            alert("Sai tài khoản hoặc mật khẩu!!")
+                            alert("Sai tài khoản hoặc mật khẩu!!");
                         }
                     },
                     error: function (data) {

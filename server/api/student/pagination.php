@@ -32,6 +32,7 @@ if($is_jwt_valid) {
 
         $countRows = $count->num_rows;
 
+        // get tong so page
         $countPages = ceil($countRows / $row_per_page);
 
         $data = array();

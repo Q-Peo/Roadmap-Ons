@@ -14,55 +14,30 @@
     <link rel="stylesheet" href="./assets/css/base.css">
     <link rel="stylesheet" href="./assets/css/style.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/paginationjs/2.1.5/pagination.css" integrity="sha512-QmxybGIvkSI8+CGxkt5JAcGOKIzHDqBMs/hdemwisj4EeGLMXxCm9h8YgoCwIvndnuN1NdZxT4pdsesLXSaKaA==" crossorigin="anonymous" referrerpolicy="no-referrer" />
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
 </head>
 
 <body>
     <section id="main">
         <div class="container-xxl">
-            <h2 class="mb-3">Danh sách sinh viên</h2>
+            <nav class="navbar navbar-light justify-content-between mb-3">
+                <p class="navbar-brand h2">Danh sách sinh viên</p>
+                <form class="form-inline">
+                    <button type="button" class="btn btn-home">Trang chủ</button>
+                    <button type="button" class="btn btn-logout">Đăng xuất</button>
+                    <button type="button" class="btn btn-add btn-primary">
+                        <i class="fa-solid fa-plus fa-xs"></i>&#32;Thêm mới sinh viên
+                    </button>
+                </form>
+            </nav>
+
             <div class="row justify-content-center">    
                 <div class="col-xl-10">
-                    <!-- <div class="row mb-2">
-                        <div class="col-sm-3">
-                            <div class="form-group row">
-                                <label for="ho_va_ten" class="col-md-5 col-form-label">Họ và tên: </label>
-                                <div class="col-md-7">
-                                    <input type="text" class="form-control" id="inputName">
-                                </div>
-                            </div>
-                        </div>
-                        <div class="col-sm-4">
-                            <div class="form-group row">
-                                <label for="lop_quan_ly" class="col-md-5 col-form-label">Lớp quản lý: </label>
-                                <div class="col-md-7">
-                                    <select class="form-select form-control">
-                                        <option selected>D12K22</option>
-                                        <option value="1">D12K223</option>
-                                        <option value="2">D12K224</option>
-                                        <option value="3">D12K225</option>
-                                    </select>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="col-sm-4">
-                            <div class="form-group row">
-                                <label for="QLHT" class="col-md-5 col-form-label">QLHT: </label>
-                                <div class="col-md-7">
-                                    <select class="form-select form-control">
-                                        <option selected>MyLTN</option>
-                                        <option value="1">BTN</option>
-                                    </select>
-                                </div>
-                            </div>
-                        </div>   
-                    </div> -->
                     <div class="row mb-2">
                         <div class="col-sm-3">
                             <div class="form-group row">
                                 <label for="ma_ho_so" class="col-md-5 col-form-label">Mã hồ sơ: </label>
                                 <div class="col-md-7">
-                                    <input type="text" class="form-control" id="">
+                                    <input type="text" class="form-control" id="profile_code">
                                 </div>
                             </div>
                         </div>
@@ -70,20 +45,20 @@
                             <div class="form-group row">
                                 <label for="ma_sinh_vien" class="col-md-5 col-form-label">Mã sinh viên: </label>
                                 <div class="col-md-7">
-                                    <input type="text" class="form-control" id="inputName">
+                                    <input type="text" class="form-control" id="student_code">
                                 </div>
                             </div>
                         </div>
                         <div class="col-sm-4">
                             <div class="form-group row">
-                                <label for="tai_khoan_hoc_tap" class="col-md-5 col-form-label">Tài khoản học tập: </label>
+                                <label for="tai_khoan_hoc_tap" class="col-md-5 col-form-label">Họ và tên: </label>
                                 <div class="col-md-7">
-                                    <input type="text" class="form-control" id="inputName">
+                                    <input type="text" class="form-control" id="fullname">
                                 </div>
                             </div>
                         </div>
                         <div class="col-sm-1">
-                            <button type="button" class="btn btn-default btn btn-outline-dark">
+                            <button type="button" class="btn btn-default btn btn-outline-dark" id="search-input">
                                 <span><i class="fa-solid fa-magnifying-glass"></i></span>
                             </button>
                         </div>
@@ -92,22 +67,24 @@
 
                 <div class="col-xl">
                     <div class="row-10 mb-2">
-                        <button class="btn btn-primary" onclick="window.location.href = './add_students.html';">
-                            <i class="fa-solid fa-plus fa-xs"></i>&#32;Thêm mới sinh viên
-                        </button>
+                        
                     </div>
-                    <div class="row mb-3">
+                    <!-- <div class="row mb-3">
                         <div class="input-group col">
                             <div class="input-group">
                                 <span class="input-group-text" id="addon-wrapping">
                                     <i class="fa-solid fa-magnifying-glass"></i>
                                 </span>
                                 <input class="form-control left-border-none" placeholder="Search theo từ khóa" 
-                                    type="text" name="search">
+                                    type="text" id="search-text">
                             </div>
                         </div>
-                    </div>
+                    </div> -->
                 </div>
+            </div>
+
+            <div class="row">
+                <h5><strong id='msg'></strong></h5>
             </div>
 
             <div class="table-responsive-xxl mb-4 mt-3">
@@ -160,123 +137,18 @@
                     </ul>
                 </nav>
                 
-                <div class="table--rows-perpage">
+                <!-- <div class="table--rows-perpage">
                     <p>Số bản ghi mỗi trang:</p>
                     <input type="number" name="rowsPerPage" id="" value="4" class="input--rows-perpage">
-                </div>
+                </div> -->
 
                 <div id="demo" class="d-flex justify-content-center"></div>
             </div>
 
         </div>
     </section>
-
-    <script type="text/javascript">
-        $(document).ready(function () {
-            var endpoint = $(location).attr('search');
-            // console.log(endpoint);
-
-            $currentPage = 1;
-            var dem = 0;
-
-            // lấy url 
-            let url = new URL(window.location.href);
-            var $page = 1;
-            // lấy endpoint page của url
-            $page = url.searchParams.get('page');
-            $row_per_page = url.searchParams.get('row_per_page');
-
-            var options = {};
-            options.url = "../../../server/api/student/pagination.php?page=" + $page + "&row_per_page=4";
-            options.type = "GET";
-            options.beforeSend = function (request) {
-                request.setRequestHeader("Authorization", "Bearer " + localStorage.getItem('data'));
-                // console.log(localStorage.getItem('data'));
-            };
-            options.dataType = "json";
-            options.success = function (data) {
-                // console.log(data.students.length);
-                // console.log(data.students);
-                var no = 1;
-                $.each(data.students, function (key, value) {
-                    $("tbody").append("<tr class='table-item'><td>" + value.id + "</td>" +
-                    "<td>" + value.profile_code +"</td>"+
-                    "<td>" + value.student_code + "</td>" +
-                    "<td>" + value.firstname + " " + value.lastname + "</td>" +
-                    "<td>" + value.gender + "</td>" +
-                    "<td>" + value.date_of_birth + "</td>" +
-                    "<td>" + value.place_of_birth + "</td>" +
-                    "<td>" + value.race + "</td>" +
-                    "<td>" + value.religion + "</td>" +
-                    "<td>" + value.phone + "</td>" +
-                    "<td>" + value.email + "</td>" +
-                    "<td>" + value.personal_email + "</td>" +
-                    "<td>" + value.address + "</td>" +
-                    "<td>" + value.identity_number + "</td>" +
-                    "<td>" + value.student_status + "</td>" +
-                    "<td>" + value.note + "</td>" + 
-                    "<td>" +
-                        "<div class='btn-group' role='group' aria-label='Basic example'>" +
-                            "<button type='button' class='btn' onclick=\"window.location.href = './add_students.html?id=" + value.id + "';\"><i class='fa-solid fa-eye'></i></button>" +
-                            "<button type='button' class='btn' onclick=\"window.location.href = './add_students.html?id=" + value.id + "';\"><i class='fa-solid fa-pen-to-square'></i></button>" +
-                            // "<button type='button' class='btn' onclick='deleteFun("+value.id+")'><i class='fa-solid fa-trash-can'></i></button>" +
-                            "<button type='button' class='btn btn-delete' id='delete-"+value.id+"'><i class='fa-solid fa-trash-can'></i></button>" +
-                       "</div>"
-                    + "</td></tr>");
-                });
-                $countRows = Math.ceil(data.countRows/$row_per_page);
-                for(var i = 1; i <= $countRows ;i++){
-                    // console.log('a' + i);
-                    dem++;
-                    $("<li class='page-item'><a class='page-link' href='./list_students.html?page=" + i + "&row_per_page=4'>"+ i +"</a></li>").insertBefore(".page-next");
-                }
-
-                $countPages = data.countPages;
-                console.log($countPages);
-                // $('.a-next').click(function (){ 
-                //     if($page < $countPages && $countPages > 1){
-                //         $(this).attr('href', './list_students.html?page='+($page+1)+'&row_per_page=4');
-                //     }  
-                // });
-                $('.a-prev').click(function (){ 
-                    if($page > 1 && $countPages > 1){
-                        $(this).attr('href', './list_students.html?page='+($page-1)+'&row_per_page=4');
-                    }
-                });
-            };
-
-            $.ajax(options).then(() => {
-                $(".btn-delete").click(function () {
-                    const id = this.id.slice(7);
-                    deleteFun(id);
-                })
-            });
-
-            function deleteFun(id){
-                // console.log(typeof id);
-                if(confirm('Bạn có chắc chắn xóa sinh viên này không?')) {
-                    $.ajax({
-                        method: 'DELETE',
-                        url: '../../../server/api/student/delete.php?id='+id,
-                        dataType: 'json',
-                        data: {
-                            id: id,
-                        },
-                        beforeSend: function (request) {
-                            request.setRequestHeader("Authorization", "Bearer " + localStorage.getItem('data'));
-                            // console.log(localStorage.getItem('data'));
-                        },
-                        success: function (data) {
-                            alert("Bạn đã xóa thành công!!");
-                            location.href("./list_students.html?page=1&&row_per_page=4");
-                        },
-                    });
-                }
-                else {
-                    return false;
-                }
-            }
-        });
-    </script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script src="./assets/js/common.js"></script>
+    <script type="text/javascript" src="./assets/js/list_students.js"></script>
 </body> 
 </html>

@@ -36,7 +36,7 @@ if($_SERVER['REQUEST_METHOD'] === "POST")
         $name = $row['name'];
 
         $headers = array('alg' => 'HS256', 'typ' => 'JWT');
-        $payload = array('name' => $name, 'exp' => (time() + 86400), 'iat' => time());
+        $payload = array('name' => $name, 'exp' => (time() + 3600), 'iat' => time());
 
         $jwt = generate_jwt($headers, $payload);
 

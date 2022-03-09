@@ -24,57 +24,8 @@ $.validator.addMethod("isLengthInput", function (value, element) {
     return value.length < 6;
 }, "Phải trên 6 kí tự");
 
-
-
-//các hàm xử lý k sử dụng jquery validate
-//function check input còn trống không
-function isBlank (value) {
-    if (value.replace(/\s+/g, '').length == 0) {
-        return false;
-    }
-    else {
-        return true;
-    }
-}
-
-//function check input còn trống và có khoảng trắng không
-function isNull (value) {
-    if (value == '' && value.trim().length == 0) {
-        return false;
-    }
-    else {
-        return true;
-    }
-}
-
-//function check password
-function isPassword (pass) {
-    if (pass.length < 6) {
-        return false;
-    }
-    else {
-        return true;
-    }
-}
-
-//check xem có phải là email không
-function isEmail (email) {
-    var reg = /^\w+([-+.']\w+)*@\w+([-.]\w+)*\.\w+([-.]\w+)*$/;
-    if (reg.test(email)) {
-        return true;
-    }
-    else {
-        return false;
-    }
-}
-
-//function check so dien thoai
-function isPhoneNumber (number) {
-    var phone = /(03|05|07|08|09|01[2|6|8|9])+([0-9]{8})\b/;
-    if (phone.test(number)) {
-        return true;
-    }
-    else{
-        return false;
-    }
+// ham check token expired k
+function isTokenExpired(token) {
+    const expiry = (JSON.parse(atob(token.split('.')[1]))).exp;
+    return (Math.floor((new Date).getTime() / 1000)) >= expiry;
 }
