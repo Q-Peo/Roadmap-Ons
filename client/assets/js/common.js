@@ -1,4 +1,12 @@
+const LOCAL_URL = 'http://localhost:3000';
+
+
 //các hàm xử lý logic khi dùng jquery validate
+//rule check ki tu dac biet
+$.validator.addMethod("isValidChar", function (value, element) {
+    return this.optional(element) || !/[~`!#$%\^&*+=\-\[\]\\';,/{}|\\":<>\?]/g.test(value);
+}, "Không được chứa các kí tự đặc biệt"),
+
 //rule check khoảng trắng trong input
 $.validator.addMethod("isSpace", function (value, element) {
     return value == '' || value.trim().length != 0;
@@ -24,7 +32,7 @@ $.validator.addMethod("isLengthInput", function (value, element) {
     return value.length < 6;
 }, "Phải trên 6 kí tự");
 
-// ham check token expired k
+// hàm check token hết hạn chưa
 function isTokenExpired(token) {
     const expiry = (JSON.parse(atob(token.split('.')[1]))).exp;
     return (Math.floor((new Date).getTime() / 1000)) >= expiry;

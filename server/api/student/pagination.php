@@ -14,20 +14,23 @@ $bearer_token = get_bearer_token();
 
 $is_jwt_valid = is_jwt_valid($bearer_token);
 
-if($is_jwt_valid) {
+if ($is_jwt_valid) {
     $response = array();
-
-    if ($_GET["page"] && $_GET["row_per_page"]) {
-        $page = $_GET["page"];
-        $row_per_page = $_GET["row_per_page"];
+    // if ($_GET["page"] && $_GET["row_per_page"]) {
+    if ($_GET["page"]) {
+        $page = htmlspecialchars($_GET["page"]);
+        // $row_per_page = $_GET["row_per_page"];
+        // số sinh viên hiển thị trên 1 page
+        $row_per_page = 4;
 
         $begin = ($page * $row_per_page) - $row_per_page;
 
-        $sql = "SELECT * FROM students.students LIMIT {$begin}, {$row_per_page}";
+        $sql = "SELECT * FROM `student-management-system`.students LIMIT {$begin}, {$row_per_page}";
+
         $table_data = mysqli_query($connect, $sql);
 
         // get tong so sinh vien
-        $query = "SELECT * FROM students.students";
+        $query = "SELECT * FROM `student-management-system`.students";
         $count = mysqli_query($connect, $query);
 
         $countRows = $count->num_rows;
@@ -41,21 +44,16 @@ if($is_jwt_valid) {
         }
 
         if (count($data) > 0) {
-            $response["students"] = $data;
             $response["countRows"] = $countRows;
             $response["countPages"] = $countPages;
             $response["status"] = 200;
+            $response["students"] = $data;
         } else {
             $response["msg"] = "data loi";
             $response["status"] = 400;
         }
     }
-
     echo json_encode($response);
-}
-else {
+} else {
     echo json_encode(array('error' => 'Access denied'));
 }
-
-
-?>

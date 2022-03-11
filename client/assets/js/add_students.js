@@ -2,17 +2,18 @@ $(document).ready(function () {
     let token = localStorage.getItem('data');
     if (isTokenExpired(token)) {
         alert('Đã hết phiên đăng nhập. Vui lòng đăng nhập lại!');
+        localStorage.removeItem('data');
         $(location).prop('href', '/client/login.html');
     }
     else {
-        //xu li icon menu tab (thay đổi icon khi toggle)
+        // xu li icon menu tab (thay đổi icon khi toggle)
         $('#base-info-tab').click(function () {
             $('.form-inline').toggle();
             icon = $(this).find('.fa-caret-down');
             icon.toggleClass('fa-caret-left');
         });
 
-        //input timepicker cho input ngày sinh
+        // input timepicker cho input ngày sinh
         $.fn.datepicker.defaults.format = 'yyyy-mm-dd';
         $('#datepicker-dob').datepicker({
             todayBtn: 'linked',
@@ -30,7 +31,7 @@ $(document).ready(function () {
             $('.title').html('Sửa sinh viên');
             $.ajax({
                 method: 'GET',
-                url: '../../../server/api/student/read.php' + endpoint,
+                url: LOCAL_URL + '/server/api/student/read.php' + endpoint,
                 dataType: 'json',
                 beforeSend: function (request) {
                     request.setRequestHeader("Authorization", "Bearer " + localStorage.getItem('data'));
@@ -62,26 +63,28 @@ $(document).ready(function () {
 
         // xử lí khi update hoặc create sinh viên
         $('#addForm').submit(function (e) {
-            //xu li validate form
-
-            // console.log(formData);
+            // xu li validate form
             $('#addForm').validate({
                 rules: {
                     ma_ho_so: {
                         required: true,
                         isSpace: true,
+                        isValidChar: true,
                     },
                     ma_sinh_vien: {
                         required: true,
                         isSpace: true,
+                        isValidChar: true,
                     },
                     ho_dem: {
                         required: true,
                         isSpace: true,
+                        isValidChar: true,
                     },
                     ten: {
                         required: true,
                         isSpace: true,
+                        isValidChar: true,
                     },
                     gioi_tinh: "required",
                     ngay_sinh: {
@@ -91,6 +94,7 @@ $(document).ready(function () {
                     noi_sinh: {
                         required: true,
                         isSpace: true,
+                        isValidChar: true,
                     },
                     dien_thoai: {
                         required: true,
@@ -123,26 +127,13 @@ $(document).ready(function () {
                         required: 'Vui lòng nhập email',
                     },
                 },
-                // errorPlacement: function (error, element) {
-                //     if (element.attr('name') == 'ngay_sinh') {
-                //         error.insertAfter($('#ngay_sinhMsg'));
-                //     }
-                //     else {
-                //         error.append($('.errorTxt span'));
-                //     }
-                // },
                 submitHandler: function (data) {
-                    // console.log('Thêm thành công!!');
-                    //alert('Thêm thành công!!');
-                    //hiển thị dữ liệu vừa nhập thành công
-                    //console.log($( form ).serializeArray());
-
                     // kiểm tra xem url có endpoint ?id=, không có thì call api create, có thì update
                     if ($(location).attr('search') == "") {
                         // ajax them sinh vien
                         $.ajax({
                             method: 'POST',
-                            url: '../../../server/api/student/create.php',
+                            url: LOCAL_URL + '/server/api/student/create.php',
                             dataType: 'json',
                             data: {
                                 profile_code: $("#ma_ho_so").val(),
@@ -169,7 +160,7 @@ $(document).ready(function () {
                             success: function (data) {
                                 if (!data.success) {
                                     alert('Thêm thành công');
-                                    $(location).attr('href', "./list_students.html?page=1&row_per_page=4");
+                                    $(location).attr('href', "./list_students.html?page=1");
                                     // console.log(data);
                                 }
                                 else {
@@ -181,7 +172,7 @@ $(document).ready(function () {
                     else {
                         $.ajax({
                             method: 'POST',
-                            url: '../../../server/api/student/update.php' + endpoint,
+                            url: LOCAL_URL + '/server/api/student/update.php' + endpoint,
                             dataType: 'json',
                             data: {
                                 profile_code: $("#ma_ho_so").val(),
@@ -208,7 +199,7 @@ $(document).ready(function () {
                             success: function (data) {
                                 if (!data.success) {
                                     alert('Sửa thành công');
-                                    $(location).attr('href', "./list_students.html?page=1&row_per_page=4");
+                                    $(location).attr('href', "./list_students.html?page=1");
                                     // console.log(data);
                                 }
                                 else {

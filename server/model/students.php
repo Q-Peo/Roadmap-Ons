@@ -32,11 +32,11 @@
         public function read()
         {
             if ($this->id) {
-                $stmt = $this->conn->prepare("SELECT * FROM students." . $this->table . " WHERE id = ?");
+                $stmt = $this->conn->prepare("SELECT * FROM `student-management-system`." . $this->table . " WHERE id = ?");
                 $stmt->bind_param("i", $this->id);
             } else{
                 // $stmt = $this->conn->prepare("SELECT * FROM students." . $this->table . " ORDER BY id LIMIT 0, 5");
-                $stmt = $this->conn->prepare("SELECT * FROM students." . $this->table . "");
+                $stmt = $this->conn->prepare("SELECT * FROM `student-management-system`." . $this->table . "");
             }
             $stmt->execute();
             $result = $stmt->get_result();
@@ -46,7 +46,7 @@
         public function create()
         {
             $stmt = $this->conn->prepare("
-            INSERT INTO `students`." . $this->table . "
+            INSERT INTO `student-management-system`." . $this->table . "
                 (
                 `profile_code`,
                 `student_code`,
@@ -114,7 +114,7 @@
         public function update()
         {
             $stmt = $this->conn->prepare("
-                    UPDATE `students`." . $this->table . "
+                    UPDATE `student-management-system`." . $this->table . "
                     SET profile_code= ?, student_code = ?, firstname = ?, lastname = ?, gender = ?,
                     date_of_birth = ?, place_of_birth = ?, race = ?, religion = ?, phone = ?, email = ?, 
                     personal_email = ?, address = ?, identity_number = ?, student_status = ?, note = ? 
@@ -169,7 +169,7 @@
         public function delete()
         {
             $stmt = $this->conn->prepare("
-                    DELETE FROM `students`." . $this->table . " WHERE id = ?");
+                    DELETE FROM `student-management-system`." . $this->table . " WHERE id = ?");
 
             $this->id = htmlspecialchars(strip_tags($this->id));
 
@@ -181,18 +181,6 @@
 
             return false;
         }
-
-        // public function search() {
-        //     $stmt = $this->conn->prepare("SELECT * FROM `students`." . $this->table . " WHERE ");
-
-        //     $this->id = htmlspecialchars(strip_tags($this->id));
-
-        //     $stmt->bind_param("i", $this->id);
-
-        //     $stmt->execute();
-        //     $result = $stmt->get_result();
-        //     return $result;
-        // }
     }
 
 ?>

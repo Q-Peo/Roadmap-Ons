@@ -37,7 +37,7 @@ $(document).ready(function () {
                 //window.location = './list_students.html';
                 $.ajax({
                     method: 'POST',
-                    url: '../../../server/api/authen/login.php',
+                    url: LOCAL_URL + '/server/api/authen/login.php',
                     //headers: { "Authorization": localStorage.getItem('token') },
                     data: {
                         email: $('#email').val(),
@@ -47,7 +47,7 @@ $(document).ready(function () {
                         localStorage.setItem('data', data.token);
                         if (!data.success) {
                             alert('Đang vào chờ tí....');
-                            $(location).attr('href', "./list_students.html?page=1&row_per_page=4");
+                            $(location).attr('href', "./list_students.html");
                             // console.log(data);
                         }
                         else {

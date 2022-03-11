@@ -23,7 +23,8 @@ if($_SERVER['REQUEST_METHOD'] === "POST")
     // $result = new Login($connect);
     // $re = $result->checkLogin($email, $password);
 
-    $sql = "SELECT * FROM students.users WHERE email = '" . $email . "' AND password = '" . mysqli_real_escape_string($connect, $password) . "' LIMIT 1";
+    $sql = "SELECT * FROM `student-management-system`.users WHERE email = '" . $email . "' 
+            AND password = '" . mysqli_real_escape_string($connect, $password) . "' LIMIT 1";
 
     $result = mysqli_query($connect, $sql);
 
@@ -35,8 +36,9 @@ if($_SERVER['REQUEST_METHOD'] === "POST")
 
         $name = $row['name'];
 
+        // truyền header và payload cho token
         $headers = array('alg' => 'HS256', 'typ' => 'JWT');
-        $payload = array('name' => $name, 'exp' => (time() + 3600), 'iat' => time());
+        $payload = array('name' => $name, 'exp' => (time() + 86400), 'iat' => time());
 
         $jwt = generate_jwt($headers, $payload);
 
